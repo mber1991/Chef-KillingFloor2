@@ -1,0 +1,29 @@
+---
+driver:
+  name: vagrant
+  network:
+   #- ["forwarded_port", {guest: 8080, host: 8080}]
+   - ["public_network"]
+  customize:
+    memory: 2048
+    cpus: 6
+
+provisioner:
+  name: chef_zero
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: ubuntu-18.04
+
+suites:
+  - name: default
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
+
+lifecycle:
+  post_converge:
+  - remote: sleep 30
